@@ -24,20 +24,18 @@ To view the final glocud configuration run:
 
 You'll have different values depending on your project-id, zone, account, etc. Our own output is the following:
 
-```
-[app]
-use_appengine_api = True
-[compute]
-zone = europe-west1-c
-[container]
-cluster = rh-cluster-1
-[core]
-account = <Google_account>
-disable_usage_reporting = False
-project = <project-id>
-[meta]
-active_config = <config_name>
-```
+    [app]
+    use_appengine_api = True
+    [compute]
+    zone = europe-west1-c
+    [container]
+    cluster = rh-cluster-1
+    [core]
+    account = <Google_account>
+    disable_usage_reporting = False
+    project = <project-id>
+    [meta]
+    active_config = <config_name>
 
 ## Next steps
 
@@ -65,6 +63,53 @@ You can list clusters for in your project or get the details for a single cluste
     $ gcloud container clusters list
     $ gcloud container clusters describe rh-cluster-1
 
+### 3) start the MongoDB master
 
+The first thing that we're going to do is start up a pod for the MongoDB master. We'll use a replication controller to create the pod—even though it's a single pod, the controller is still useful for monitoring health and restarting the pod if required.
 
+We'll use this config file: `mongo-master-controller.json`.
+
+Start up the pod:
+
+    $ kubectl create -f mongo-master-controller.json
+
+Verify that the master is running:
+
+    kubectl get pods -l name=mongo-master
+    NAME                 READY     STATUS    RESTARTS   AGE
+    mongo-master-htjg6   1/1       Running   0          1d
+
+### 4) Look at your Docker containers
+
+Find the node's name, listed in the NODE column in response to `kubectl get`:
+
+    $ kubectl get pods -l name=mongo-master -o wide
+    NAME                 READY     STATUS    RESTARTS   AGE       NODE
+    mongo-master-htjg6   1/1       Running   0          1d        gke-rh-cluster-1-54767033-node-42aq
+
+SSH into the node:
+
+    $ gcloud compute ssh mongo-master-htjg6
+
+List the running Docker containers using the sudo docker ps command:
+
+    $ sudo docker ps
+
+### 5) Start the MongoDB service
+
+A service is an abstraction which defines a logical set of pods and a policy by which to access them. It is effectively a named load balancer that proxies traffic to one or more pods.
+
+When you set up a service, you tell it the pods to proxy based on pod labels. The pod created in step one has the label name=mongo-master.
+
+We'll use the file `mongo-master-service.json` to create a service for the MongoDB master:
+
+    $ kubectl create -f mongo-master-service.json
+
+To view service's details:
+
+    $ kubectl get services -l name=mongo-master
+    NAME      LABELS              SELECTOR            IP(S)            PORT(S)
+    mongodb   name=mongo-master   name=mongo-master   10.231.252.199   27017/TCP
+
+### 6) Create RESTHeart's pods
 
