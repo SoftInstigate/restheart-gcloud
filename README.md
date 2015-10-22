@@ -110,7 +110,7 @@ Verify that RESTHeart Pod is running:
     NAME              READY     STATUS    RESTARTS   AGE
     restheart-vpque   1/1       Running   0          1d
 
-### 6) Create the RESTHeart Service
+### 6) Start the RESTHeart Service
 
 Use this config file: `restheart-service.json`:
 
@@ -127,23 +127,23 @@ Verify that RESTHeart Service is running:
 
 At this stage you'll have a fully functional RESTHeart + MongoDB server, running on Docker containers orchestrated by Kubernetes.
 
-### 7) Display all RC, Pods and Services
+### 7) Display all Replication Controllers, Pods and Services
 
-To view all Replication Controllers:
+To view all **Replication Controllers**:
 
     $ kubectl get rc
     CONTROLLER     CONTAINER(S)     IMAGE(S)                  SELECTOR            REPLICAS
     mongo-master   mongo-master     mongo                     name=mongo-master   1
     restheart      restheart-demo   softinstigate/restheart   name=restheart      1
 
-To view all Pods:
+To view all **Pods**:
 
     $ kubectl get pods
     NAME                 READY     STATUS    RESTARTS   AGE
     mongo-master-htjg6   1/1       Running   0          1d
     restheart-vpque      1/1       Running   0          1d
 
-To view all Services:
+To view all **Services**:
 
     $ kubectl get services
     NAME         LABELS                                    SELECTOR            IP(S)            PORT(S)
@@ -155,6 +155,8 @@ To view all Services:
 ### 8) Access RESTHeart
 
 Point your browser to `http://146.148.xxx.xxx/browser` to access RESTHeart's embedded HAL Browser.
+
+Read its [documentation](https://softinstigate.atlassian.net/wiki/display/RH/Documentation) for more.
 
 > **WARNING**: as we didn't attach to MongoDB any permanent filesystem, that pod is ephemeral and will loose all data if restarted. Please have a look at [Create your persistent disks](https://cloud.google.com/container-engine/docs/tutorials/persistent-disk/#create_your_persistent_disks) for an example of allowing the application to preserve its state across pod shutdown and startup. This is not a problem for the RESTHeart Pod, as the RESTHeart process is fully stateless.
 
