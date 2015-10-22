@@ -1,7 +1,8 @@
 # restheart-gcloud
-Google Cloud Container Engine sample configuration files for RESTHeart.
 
 ![Gcloud logo](https://cloud.google.com/_static/images/new-gcp-logo.png)
+
+Google Cloud Container Engine sample configuration files for RESTHeart API Server.
 
 ## Introduction
 
@@ -79,7 +80,7 @@ Verify that the master is running:
     NAME                 READY     STATUS    RESTARTS   AGE
     mongo-master-htjg6   1/1       Running   0          1d
 
-### 4) Look at your Docker containers
+### 4) Look at your Docker containers (optional)
 
 Find the node's name, listed in the NODE column in response to `kubectl get`:
 
@@ -111,5 +112,59 @@ To view service's details:
     NAME      LABELS              SELECTOR            IP(S)            PORT(S)
     mongodb   name=mongo-master   name=mongo-master   10.231.252.199   27017/TCP
 
-### 6) Create RESTHeart's pods
+### 6) Create RESTHeart's Pods
+
+Use this config file: `restheart-controller.json`.
+
+    $ kubectl create -f restheart-controller.json
+
+Verify that RESTHeart is running:
+
+    $ kubectl get pods -l name=restheart
+    NAME              READY     STATUS    RESTARTS   AGE
+    restheart-vpque   1/1       Running   0          1d
+
+### 7) Create RESTHeart's Service
+
+Use this config file: `restheart-service.json`:
+
+    $ kubectl create -f restheart-service.json
+    NAME        LABELS           SELECTOR         IP(S)            PORT(S)
+    restheart   name=restheart   name=restheart   10.231.250.241   80/TCP
+                                                  146.148.xxx.xxx  
+
+> **Note**: as we are using a load balancer, you'll see two IPs: one internal and the other public (in this example `146.148.xxx.xxx`). It takes a few minutes for the LB to be provisioned and started, so you might not see the public address at first.
+
+At this stage you'll have a fully functional RESTHeart + MongoDB server, running on Docker containers orchestrated by Kubernetes.
+
+### 8) Display all RC, Pods and Services
+
+To view all Replication Controllers:
+
+    $ kubectl get rc
+    CONTROLLER     CONTAINER(S)     IMAGE(S)                  SELECTOR            REPLICAS
+    mongo-master   mongo-master     mongo                     name=mongo-master   1
+    restheart      restheart-demo   softinstigate/restheart   name=restheart      1
+
+To view all Pods:
+
+    $ kubectl get pods
+    NAME                 READY     STATUS    RESTARTS   AGE
+    mongo-master-htjg6   1/1       Running   0          1d
+    restheart-vpque      1/1       Running   0          1d
+
+To view all Services:
+
+    $ kubectl get services
+    NAME         LABELS                                    SELECTOR            IP(S)            PORT(S)
+    kubernetes   component=apiserver,provider=kubernetes   <none>              10.231.240.1     443/TCP
+    mongodb      name=mongo-master                         name=mongo-master   10.231.252.199   27017/TCP
+    restheart    name=restheart                            name=restheart      10.231.250.241   80/TCP
+                                                                               146.148.xxx.xxx    
+
+### 9) Access RESTHeart
+
+Point your browser to `http://146.148.xxx.xxx/browser` to access RESTHeart's embedded HAL Browser.
+
+> **WARNING**: as we didn't attach to MongoDB any permanent filesystem, that pod is ephemeral and will loose all data if restarted. Please have a look at [Create your persistent disks](https://cloud.google.com/container-engine/docs/tutorials/persistent-disk/#create_your_persistent_disks) for an example of allowing the application to preserve its state across pod shutdown and startup. This is not a problem for the RESTHeart Pod, as the RESTHeart process is fully stateless.
 
