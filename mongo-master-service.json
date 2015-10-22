@@ -1,0 +1,20 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "mongodb",
+    "labels": {
+      "name": "mongo-master"
+    }
+  },
+  "spec": {
+    "ports": [{
+      "port": 27017,
+      "targetPort": 27017,
+      "protocol": "TCP"
+    }],
+    "selector": {
+      "name": "mongo-master"
+    }
+  }
+}

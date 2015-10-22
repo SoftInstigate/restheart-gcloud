@@ -1,0 +1,21 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "restheart",
+    "labels": {
+      "name": "restheart"
+    }
+  },
+  "spec": {
+    "type": "LoadBalancer",
+    "ports": [{
+      "port": 80,
+      "targetPort": 8080,
+      "protocol": "TCP"
+    }],
+    "selector": {
+      "name": "restheart"
+    }
+  }
+}

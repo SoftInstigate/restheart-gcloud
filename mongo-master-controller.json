@@ -1,0 +1,33 @@
+{
+  "kind": "ReplicationController",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "mongo-master",
+    "labels": {
+      "name": "mongo-master"
+    }
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "name": "mongo-master"
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "name": "mongo-master"
+        }
+      },
+      "spec": {
+        "containers": [{
+          "name": "mongo-master",
+          "image": "mongo",
+          "ports": [{
+            "containerPort": 27017,
+            "protocol": "TCP"
+          }]
+        }]
+      }
+    }
+  }
+}

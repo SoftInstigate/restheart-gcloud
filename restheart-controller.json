@@ -1,0 +1,33 @@
+{
+  "kind": "ReplicationController",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "restheart",
+    "labels": {
+      "name": "restheart"
+    }
+  },
+  "spec": {
+    "replicas": 1,
+    "selector": {
+      "name": "restheart"
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "name": "restheart"
+        }
+      },
+      "spec": {
+        "containers": [{
+          "name": "restheart-demo",
+          "image": "softinstigate/restheart",
+          "ports": [{
+            "containerPort": 8080,
+            "protocol": "TCP"
+          }]
+        }]
+      }
+    }
+  }
+}
