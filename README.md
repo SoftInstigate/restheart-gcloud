@@ -8,6 +8,8 @@ Google Cloud Container Engine sample configuration files for [RESTHeart](http://
 
 This repo contains a set of files which allows to deploy a basic RESTHeart and MongoDB configuration on the Google Cloud Container Engine. The purpose is double: to test Google Cloud services and to provide a way to deploy a RESTHeart demo environments in few minutes. This setup could be the foundation for a more robust and scalable configuration.
 
+> In this example the configuration files use the **public Docker images** for [RESTHeart](https://hub.docker.com/r/softinstigate/restheart/) and [MongoDB](https://hub.docker.com/_/mongo/).
+
 ## What is Google Container Engine?
 
 > Google Container Engine is a powerful cluster manager and orchestration system for running your Docker containers. Container Engine schedules your containers into the cluster and manages them automatically based on requirements you define (such as CPU and memory). It's built on the open source Kubernetes system, giving you the flexibility to take advantage of on-premises, hybrid, or public cloud infrastructure.
