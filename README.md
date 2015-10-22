@@ -64,7 +64,7 @@ You can list clusters for in your project or get the details for a single cluste
     $ gcloud container clusters list
     $ gcloud container clusters describe rh-cluster-1
 
-### 3) start the MongoDB master
+### 3) Start the MongoDB Replication Controller
 
 The first thing that we're going to do is start up a pod for the MongoDB master. We'll use a replication controller to create the pod—even though it's a single pod, the controller is still useful for monitoring health and restarting the pod if required.
 
@@ -80,23 +80,7 @@ Verify that the master is running:
     NAME                 READY     STATUS    RESTARTS   AGE
     mongo-master-htjg6   1/1       Running   0          1d
 
-### 4) Look at your Docker containers (optional)
-
-Find the node's name, listed in the NODE column in response to `kubectl get`:
-
-    $ kubectl get pods -l name=mongo-master -o wide
-    NAME                 READY     STATUS    RESTARTS   AGE       NODE
-    mongo-master-htjg6   1/1       Running   0          1d        gke-rh-cluster-1-54767033-node-42aq
-
-SSH into the node:
-
-    $ gcloud compute ssh mongo-master-htjg6
-
-List the running Docker containers using the sudo docker ps command:
-
-    $ sudo docker ps
-
-### 5) Start the MongoDB service
+### 4) Start the MongoDB service
 
 A service is an abstraction which defines a logical set of pods and a policy by which to access them. It is effectively a named load balancer that proxies traffic to one or more pods.
 
@@ -112,23 +96,27 @@ To view service's details:
     NAME      LABELS              SELECTOR            IP(S)            PORT(S)
     mongodb   name=mongo-master   name=mongo-master   10.231.252.199   27017/TCP
 
-### 6) Create RESTHeart's Pods
+### 5) Start the RESTHeart Replication Controller
 
 Use this config file: `restheart-controller.json`.
 
     $ kubectl create -f restheart-controller.json
 
-Verify that RESTHeart is running:
+Verify that RESTHeart Pod is running:
 
     $ kubectl get pods -l name=restheart
     NAME              READY     STATUS    RESTARTS   AGE
     restheart-vpque   1/1       Running   0          1d
 
-### 7) Create RESTHeart's Service
+### 6) Create the RESTHeart Service
 
 Use this config file: `restheart-service.json`:
 
     $ kubectl create -f restheart-service.json
+    
+Verify that RESTHeart Service is running:
+
+    $ kubectl get services -l name=restheart
     NAME        LABELS           SELECTOR         IP(S)            PORT(S)
     restheart   name=restheart   name=restheart   10.231.250.241   80/TCP
                                                   146.148.xxx.xxx  
@@ -137,7 +125,7 @@ Use this config file: `restheart-service.json`:
 
 At this stage you'll have a fully functional RESTHeart + MongoDB server, running on Docker containers orchestrated by Kubernetes.
 
-### 8) Display all RC, Pods and Services
+### 7) Display all RC, Pods and Services
 
 To view all Replication Controllers:
 
@@ -162,8 +150,24 @@ To view all Services:
     restheart    name=restheart                            name=restheart      10.231.250.241   80/TCP
                                                                                146.148.xxx.xxx    
 
-### 9) Access RESTHeart
+### 8) Access RESTHeart
 
 Point your browser to `http://146.148.xxx.xxx/browser` to access RESTHeart's embedded HAL Browser.
 
 > **WARNING**: as we didn't attach to MongoDB any permanent filesystem, that pod is ephemeral and will loose all data if restarted. Please have a look at [Create your persistent disks](https://cloud.google.com/container-engine/docs/tutorials/persistent-disk/#create_your_persistent_disks) for an example of allowing the application to preserve its state across pod shutdown and startup. This is not a problem for the RESTHeart Pod, as the RESTHeart process is fully stateless.
+
+## Look at your Docker containers (optional)
+
+For the Pod you want to inspect, find the node's name, listed in the NODE column in response to `kubectl get`:
+
+    $ kubectl get pods -l name=mongo-master -o wide
+    NAME                 READY     STATUS    RESTARTS   AGE       NODE
+    mongo-master-htjg6   1/1       Running   0          1d        gke-rh-cluster-1-54767033-node-42aq
+
+SSH into the node:
+
+    $ gcloud compute ssh mongo-master-htjg6
+
+List the running Docker containers using the sudo docker ps command:
+
+    $ sudo docker ps
