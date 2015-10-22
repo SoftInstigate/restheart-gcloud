@@ -2,11 +2,11 @@
 
 ![Gcloud logo](https://cloud.google.com/_static/images/new-gcp-logo.png)
 
-Google Cloud Container Engine sample configuration files for RESTHeart API Server.
+Google Cloud Container Engine sample configuration files for [RESTHeart](http://restheart.org), the REST API Server for MongoDB.
 
 ## Introduction
 
-This repo contains a set of files which allows to deploy a very basic RESTHeart and MongoDB configuration on the Google Cloud Container Engine. The purpose is double: to test Google Cloud services and to provide a way to deploy a RESTHeart demo environments in few minutes. This setup could be the foundation for a more robust and scalable configuration.
+This repo contains a set of files which allows to deploy a basic RESTHeart and MongoDB configuration on the Google Cloud Container Engine. The purpose is double: to test Google Cloud services and to provide a way to deploy a RESTHeart demo environments in few minutes. This setup could be the foundation for a more robust and scalable configuration.
 
 ## What is Google Container Engine?
 
@@ -167,4 +167,3 @@ To view all Services:
 Point your browser to `http://146.148.xxx.xxx/browser` to access RESTHeart's embedded HAL Browser.
 
 > **WARNING**: as we didn't attach to MongoDB any permanent filesystem, that pod is ephemeral and will loose all data if restarted. Please have a look at [Create your persistent disks](https://cloud.google.com/container-engine/docs/tutorials/persistent-disk/#create_your_persistent_disks) for an example of allowing the application to preserve its state across pod shutdown and startup. This is not a problem for the RESTHeart Pod, as the RESTHeart process is fully stateless.
-
