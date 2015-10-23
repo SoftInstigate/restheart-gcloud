@@ -175,3 +175,7 @@ SSH into the node:
 List the running Docker containers using the sudo docker ps command:
 
     $ sudo docker ps
+
+<hr></hr>
+
+_Made by [The SoftInstigate Team](http://www.softinstigate.com/). Follow us on [Twitter](https://twitter.com/softinstigate)_.
