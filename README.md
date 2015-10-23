@@ -1,8 +1,8 @@
 # restheart-gcloud
 
-![Gcloud logo](https://cloud.google.com/_static/images/new-gcp-logo.png)    ![Docker logo](https://www.docker.com/sites/all/themes/docker/assets/images/logo.png)
+How to deploy [RESTHeart](http://restheart.org), the REST API Server for MongoDB, on Google Cloud Container Engine.
 
-Google Cloud Container Engine sample configuration files for [RESTHeart](http://restheart.org), the REST API Server for MongoDB.
+![Gcloud logo](https://cloud.google.com/_static/images/new-gcp-logo.png)    ![Docker logo](https://www.docker.com/sites/all/themes/docker/assets/images/logo.png)
 
 ## Introduction
 
