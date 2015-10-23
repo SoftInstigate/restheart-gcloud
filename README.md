@@ -8,7 +8,7 @@ How to deploy [RESTHeart](http://restheart.org), the REST API Server for MongoDB
 
 This repo contains a set of files which allows to deploy a basic RESTHeart and MongoDB configuration on the Google Cloud Container Engine. The purpose is double: to test Google Cloud services and to provide a way to deploy a RESTHeart demo environments in few minutes. This setup could be the foundation for a more robust and scalable configuration.
 
-> In this example the configuration files use the **public Docker images** for [RESTHeart](https://hub.docker.com/r/softinstigate/restheart/) and [MongoDB](https://hub.docker.com/_/mongo/).
+> This example uses the **public Docker images** for [RESTHeart](https://hub.docker.com/r/softinstigate/restheart/) and [MongoDB](https://hub.docker.com/_/mongo/). The RESTHeart Docker project is available [here](https://github.com/SoftInstigate/restheart-docker). 
 
 ## What is Google Container Engine?
 
@@ -42,7 +42,7 @@ You'll have different values depending on your project-id, zone, account, etc. O
 
 ## Next steps
 
-> **Note**: this is not a tutorial for the Google Cloud Platform, you need a minimal working knowledge of the platform and its tools to understand the following steps.
+> This is not a tutorial for the Google Cloud Platform, you need a minimal working knowledge of the platform and its tools to understand the following steps.
 
 ### 1) Download the configuration files
 
@@ -123,7 +123,7 @@ Verify that RESTHeart Service is running:
     restheart   name=restheart   name=restheart   10.231.250.241   80/TCP
                                                   146.148.xxx.xxx  
 
-> **Note**: as we are using a load balancer, you'll see two IPs: one internal and the other public (in this example `146.148.xxx.xxx`). It takes a few minutes for the LB to be provisioned and started, so you might not see the public address at first.
+> As we have defined a load balancer (see `restheart-service.json` file), there are two IPs: one internal and the other public (in this example `146.148.xxx.xxx`). It takes few minutes for the load balancer to be provisioned and started, so you might not see its public address at first.
 
 At this stage you'll have a fully functional RESTHeart + MongoDB server, running on Docker containers orchestrated by Kubernetes.
 
