@@ -178,4 +178,4 @@ List the running Docker containers using the sudo docker ps command:
 
 <hr></hr>
 
-_Made by [The SoftInstigate Team](http://www.softinstigate.com/). Follow us on [Twitter](https://twitter.com/softinstigate)_.
+_Made with :heart: by [The SoftInstigate Team](http://www.softinstigate.com/). Follow us on [Twitter](https://twitter.com/softinstigate)_.
