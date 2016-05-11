@@ -2,7 +2,7 @@
 
 How to deploy [RESTHeart](http://restheart.org), the REST API Server for MongoDB, on Google Cloud Container Engine.
 
-<img src="https://cloud.google.com/_static/images/new-gcp-logo.png" width="280"></img>  <img src="https://www.docker.com/sites/all/themes/docker/assets/images/logo.png" width="200"></img>  <img src="https://www.mongodb.org/assets/global/mongodb-logo-web-tagline-99280fe76cc002a93d023901c1a05df8b621f1c893084a580dee83de9be96630.png" width="200"></img>
+<img src="https://cloud.google.com/_static/images/new-gcp-logo.png" width="280"></img>  <img src="https://www.docker.com/sites/all/themes/docker/assets/images/logo.png" width="200"></img>
 
 ## Introduction
 
